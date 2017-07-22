@@ -1,5 +1,5 @@
 var pasajeros = [];
-
+var global;
 
 
 var asientos = document.getElementsByTagName('td');
@@ -14,10 +14,22 @@ function redirect(event){
 
     var seat = parseInt(asiento);
     var mostrar = document.getElementById("mostrar");
-    mostrar.innerHTML = "Seleccionó el asiento " + seat;
-    (event.target).style.backgroundColor = ((event.target).style.backgroundColor=='rgb(248, 237, 80)') ? 'transparent' : '#F8ED50';
-    
+    mostrar.innerHTML = "Seleccionó el asiento " + "<strong>"+seat+"</strong>";
+    //(event.target).style.backgroundColor = ((event.target).style.backgroundColor=='rgb(248, 237, 80)') ? 'transparent' : '#F8ED50';
+    (event.target).style.backgroundColor = '#7FB3D5';
+
+    for(var i in pasajeros){
+    	var reservacion = pasajeros[i];
+    	if(reservacion.asiento == seat){
+    		document.getElementById("nombre").value =  reservacion.nombre;
+			document.getElementById("apellido").value = reservacion.apellido;
+			document.getElementById("dni").value = reservacion.dni;
+			document.getElementById("resultado").value ="";
+    	}
+    }
+    global = event.target;
     return seat;
+    //reinicia();
     // crear funcion que traiga caja
 }
 
@@ -40,11 +52,10 @@ function reinicia(){
 	document.getElementById("dni").value = "";
 	document.getElementById("dniBuscar").value ="";
 	document.getElementById("resultado").value ="";
-	document.getElementById("mostrar").innerHTML = "Seleccione asiento";
+	document.getElementById("mostrar").innerHTML = "<strong>"+"Seleccione asiento"+ "</strong>";
 }
 
 function reservar(name, apellido, dni, asiento){	
-	reinicia();
 	var name = document.getElementById("nombre").value;
 	var apellido = document.getElementById("apellido").value;
 	var dni = document.getElementById("dni").value;
@@ -105,27 +116,15 @@ function listar(){
 
 
 function cancelar(){
+	var nombre = document.getElementById("nombre").value;
 
-	reinicia();
-}
-
-
-/*
-var celdas = document.getElementsByTagName('td');
-for (var i = 0; i < celdas.length; i++) {
-    //celdas[i].addEventListener('click',redirect,false);
-    celdas[i].addEventListener('click',cambiarColor,false);
-} */
-/*function redirect(event){
-    document.getElementById("mostrar").innerHTML=(event.target.textContent);
-}*/
-
-/*
-function cambiarColor(){
-	var celdas = document.getElementsByTagName('td');
-	for (var i = 0; i < celdas.length; i++) {
-    //celdas[i].addEventListener('click',redirect,false);
-    	celdas[i].addEventListener('click',cambiarColor,false);
+	for(var i in pasajeros){
+		if(pasajeros[i].nombre == nombre){
+			console.log(pasajeros[i]);
+			pasajeros.splice(i,1);
+			reinicia();
+			global.style.backgroundColor = "transparent";
+			return true;
+		}		
 	}
-	celda.style.backgroundColor = "#008000";
-} */
+}
