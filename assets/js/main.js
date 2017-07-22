@@ -6,21 +6,25 @@ var asientos = document.getElementsByTagName('td');
 for (var i = 0; i < asientos.length; i++) {
     asientos[i].addEventListener('click',redirect,false);
 }
+var numero = new nAsiento();
+
 function redirect(event){
     var asiento = event.target.textContent;
+    numero.retornaAsiento(asiento);
 
     var seat = parseInt(asiento);
     var mostrar = document.getElementById("mostrar");
-    mostrar.innerHTML = "Seleccionó el asiento " + asiento;
+    mostrar.innerHTML = "Seleccionó el asiento " + seat;
     (event.target).style.backgroundColor = ((event.target).style.backgroundColor=='rgb(248, 237, 80)') ? 'transparent' : '#F8ED50';
     
-    return asiento;
+    return seat;
     // crear funcion que traiga caja
 }
 
+
 function nAsiento(){
-    this.retornaAsiento= function (numAsiento){
-        this.numAsiento= numAsiento;
+    this.retornaAsiento= function (asiento){
+        this.asiento= asiento;
     }
 }
 
@@ -40,10 +44,11 @@ function reinicia(){
 }
 
 function reservar(name, apellido, dni, asiento){	
+	reinicia();
 	var name = document.getElementById("nombre").value;
 	var apellido = document.getElementById("apellido").value;
 	var dni = document.getElementById("dni").value;
-	asiento = parseInt(asiento);
+	var asiento = numero.asiento;
 
 	function Pasajero(nombre, apellido, dni, asiento){
 	    this.nombre = nombre;
